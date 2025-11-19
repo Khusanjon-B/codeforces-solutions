@@ -1,0 +1,28 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${vcpkgRoot}/x64-windows/include",
+                "C:/Users/khusa/Downloads/Apps/winlibs-x86_64-posix-seh-gcc-15.1.0-mingw-w64ucrt-12.0.0-r1/mingw64/include",
+                "C:/Users/khusa/Downloads/Apps/winlibs-x86_64-posix-seh-gcc-15.1.0-mingw-w64ucrt-12.0.0-r1/mingw64/x86_64-w64-mingw32/include",
+                "C:/Users/khusa/Downloads/Apps/winlibs-x86_64-posix-seh-gcc-15.1.0-mingw-w64ucrt-12.0.0-r1/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include"
+            ],
+
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+
+            "compilerPath": "C:/Users/khusa/Downloads/Apps/winlibs-x86_64-posix-seh-gcc-15.1.0-mingw-w64ucrt-12.0.0-r1/mingw64/bin/g++.exe",
+            
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+
+            "intelliSenseMode": "gcc-x64"
+        }
+    ],
+    "version": 4
+}
