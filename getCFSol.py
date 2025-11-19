@@ -1,73 +1,41 @@
 import os
-import shutil
 import subprocess
 
-# --------------------------------------
-# CONFIG
-# --------------------------------------
+print("=== UPLOADING FILES ===\n")
 
-# Correct practice folder for your setup
-PRACTICE_DIR = os.path.join("Solutions", "codeforces", "practice")
-
-# Ensure practice directory exists
-os.makedirs(PRACTICE_DIR, exist_ok=True)
-
-print(f"Using practice folder: {PRACTICE_DIR}\n")
-
-# Track which problems were added
-added_files = []
-
-# --------------------------------------
-# COPY SOLUTIONS
-# --------------------------------------
-
-for item in os.listdir("."):
-    # Skip non-directories
-    if not os.path.isdir(item):
+for folder in os.listdir("."):
+    if not os.path.isdir(folder):
         continue
 
-    # Skip these folders
-    if item in ["Solutions", ".vscode", "__pycache__"]:
+    if folder in [".git", ".vscode", "Solutions"]:
         continue
 
-    folder_path = os.path.join(item)
-    main_cpp_path = os.path.join(folder_path, "main.cpp")
+    folder_path = os.path.join(".", folder)
+    files_to_upload = []
 
-    # If folder contains a main.cpp
-    if os.path.isfile(main_cpp_path):
-        output_file = os.path.join(PRACTICE_DIR, f"{item}.cpp")
+    # Collect only approved files
+    for fname in os.listdir(folder_path):
+        if fname == "main.cpp":
+            files_to_upload.append(os.path.join(folder, fname))
+        elif fname.startswith("data") and fname.endswith(".in"):
+            files_to_upload.append(os.path.join(folder, fname))
 
-        # Skip duplicates
-        if os.path.exists(output_file):
-            print(f"⏭️  Skipping {item}: already exists")
-            continue
+    if not files_to_upload:
+        continue
 
-        # Copy file
-        shutil.copyfile(main_cpp_path, output_file)
-        added_files.append(item)
-        print(f"✔ Copied {item}/main.cpp → {output_file}")
+    print(f"Preparing upload for: {folder}")
+    print("Files:")
+    for f in files_to_upload:
+        print("   -", f)
 
-# --------------------------------------
-# GIT COMMIT + PUSH
-# --------------------------------------
+    # Add only the selected files
+    subprocess.run(["git", "add"] + files_to_upload, check=True)
 
-if not added_files:
-    print("\nNo new solutions to commit. Done!")
-    exit(0)
+    # Commit
+    commit_msg = f"Add solution for {folder}"
+    subprocess.run(["git", "commit", "-m", commit_msg], check=True)
 
-# Stage changes (git add .)
-subprocess.run(["git", "add", "."], check=True)
+    # Push
+    subprocess.run(["git", "push"], check=True)
 
-# Create commit message
-commit_message = "Add Codeforces solutions: " + ", ".join(added_files)
-
-# Commit
-subprocess.run(["git", "commit", "-m", commit_message], check=True)
-
-print(f"\n✔ Created commit: \"{commit_message}\"")
-
-# Push
-print("Pushing to GitHub...")
-subprocess.run(["git", "push"], check=True)
-
-print("\n🎉 All done! Solutions copied, committed, and pushed successfully!")
+print("\nDone!")
