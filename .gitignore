@@ -1,3 +1,5 @@
 getCFSol.py
 preview.py
 upload_cf_solutions.py
+.vscode/settings.json
+compile.sh
