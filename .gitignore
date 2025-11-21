@@ -5,3 +5,4 @@ upload_cf_solutions.py
 compile.sh
 *.exe
 *.sh
+*.json
